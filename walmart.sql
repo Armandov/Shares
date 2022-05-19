@@ -4,7 +4,9 @@ CREATE TABLE productos (
     producto_id int NOT NULL AUTO_INCREMENT,
     nombre varchar(255),
     descripcion varchar(255),
-    precio int
+    precio int,
+    PRIMARY KEY (producto_id),
+)
 );
 
 INSERT INTO productos (
