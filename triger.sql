@@ -14,8 +14,8 @@ CREATE TABLE alumnos (
 
 -- Paso 3
 DELIMITER $$
-DROP TRIGGER IF EXISTS trigger_check_nota_before_insert$$
-CREATE TRIGGER trigger_check_nota_before_insert
+DROP TRIGGER IF EXISTS trigger1_check_nota_before_insert$$
+CREATE TRIGGER trigger1_check_nota_before_insert
 BEFORE INSERT
 ON alumnos FOR EACH ROW
 BEGIN
@@ -27,8 +27,8 @@ BEGIN
 END
 
 DELIMITER $$
-DROP TRIGGER IF EXISTS trigger_check_nota_before_update$$
-CREATE TRIGGER trigger_check_nota_before_update
+DROP TRIGGER IF EXISTS trigger2_check_nota_before_update$$
+CREATE TRIGGER trigger2_check_nota_before_update
 BEFORE UPDATE
 ON alumnos FOR EACH ROW
 BEGIN
