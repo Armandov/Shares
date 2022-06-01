@@ -1,0 +1,79 @@
+import mysql.connector
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="",
+  database="biblioteca"
+)
+
+mycursor = mydb.cursor()
+
+mycursor.execute("SELECT * FROM libros")
+
+result = mycursor.fetchall()
+
+for x in result:
+  print(x)
+
+
+  mycursor = mydb.cursor()
+
+sql = "SELECT * FROM libros WHERE Autor ='Oracle'"
+
+mycursor.execute(sql)
+
+resultados = mycursor.fetchall()
+
+for x in resultados:
+  print(x)
+
+  mycursor = mydb.cursor()
+
+sql = "SELECT * FROM libros ORDER BY Autor"
+
+mycursor.execute(sql)
+
+myresult = mycursor.fetchall()
+
+for x in myresult:
+  print(x)
+
+Schopenhauer = mydb.cursor()
+
+sql = "SELECT * FROM libros WHERE Autor ='Arthur Schopenhauer'"
+
+Schopenhauer.execute(sql)
+
+Schopenhauers = mycursor.fetchall()
+
+for s in Schopenhauers:
+  print(s)
+  #pip install matplotlib
+  import matplotlib
+  import matplotlib.pyplot as plt
+  import numpy
+  import numpy as np
+print(matplotlib.__version__)
+ra = np.array([35, 25, 25, 15])
+
+plt.pie(ra)
+plt.show()
+
+
+x = numpy.random.uniform(0.0, 5.0, 250)
+
+print(x)
+
+xpoints = np.array([0, 6])
+ypoints = np.array([0, 250])
+
+plt.plot(xpoints, ypoints)
+plt.ylabel("yyy")
+plt.show()
+
+import pandas
+import pandas as pd
+
+df = pd.read_json('data.json')
+
+print(df.to_string()) 
