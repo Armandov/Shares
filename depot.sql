@@ -104,8 +104,13 @@ ALTER TABLE `usuarios` CHANGE `creado` `creado` DATETIME NOT NULL DEFAULT CURREN
 ALTER TABLE `usuarios` CHANGE `nombres` `nombre`
  VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
 
+
 INSERT INTO `usuarios` (`creado`, `actulizado`, `id_usuario`, `nombre`, `image`) 
-VALUES (SYSDATE(), SYSDATE(), 'null', 
+VALUES (SYSDATE(), SYSDATE(), null, 
+'Armando', 'https://gravatar.com/avatar/8ff56ed0f8edcddd0ff979b499b63a4e');
+
+INSERT INTO `usuarios` (`creado`, `actulizado`, `id_usuario`, `nombre`, `image`) 
+VALUES (SYSDATE(), SYSDATE(),null, 
 'Armando', 'https://gravatar.com/avatar/8ff56ed0f8edcddd0ff979b499b63a4e'); 
 
 INSERT INTO `usuarios` (`creado`, `actulizado`, `id_usuario`, `nombre`, `image`) 
@@ -262,6 +267,15 @@ HAVING COUNT(ID) > 2
 ORDER BY COUNT(ID) DESC;
 
 
+CREATE ALGORITHM = MERGE SQL SECURITY INVOKER VIEW `vistas` (nombre) AS nombres 
+DESCRIBE WITH CASCADED CHECK OPTION
+
+SQL JOIN 
+Una JOIN se usa para combinar filas de dos o más tablas,
+ en función de una columna relacionada entre ellas.
+
+USE walmart;
+
 SELECT direccion FROM clientes
 UNION
 SELECT ordenID FROM ordenes
@@ -269,24 +283,23 @@ ORDER BY direccion;
 
 ALTER TABLE envios ADD FOREIGN KEY (EnviosID) REFERENCES ordenes (OrdenID);
 
+INSERT INTO `envios` (`EnvioID`, `EnvioNumero`, `EnviosID`) 
+VALUES (NULL, '0001', '1'), (NULL, '002', '3');
 
-CREATE VIEW DetallesPrecios] AS
+CREATE VIEW DetallesPrecios AS
 SELECT producto_nombre, precio
 FROM productos
 WHERE precio > (SELECT MIN(precio) FROM productos);
 
-CREATE VIEW [Products Above Average Price] AS
-SELECT ProductName, Price
-FROM Products
-WHERE Price > (SELECT AVG(Price) FROM Products);
+CREATE VIEW otra AS
+SELECT nombre
+FROM productos
+WHERE precio > (SELECT MAX(precio) FROM productos);
 
-SELECT * FROM detalles_preciosbajos;
+SELECT * FROM detalles_preciosbajos DetallesPrecios;
 
 
-SELECT ID, Nombre
-   FROM CLIENTES, ORDENES
-   WHERE  ordenID =  clientes.id, ordenes.OrdenID;
-
+SHOW KEYS FROM clientes;
 
 
    SELECT clientes.ID,clientes.nombre, envios.EnvioID, ordenes.OrdenID
@@ -295,6 +308,21 @@ FROM clientes
 	LEFT JOIN ordenes ON envios.EnviosID = ordenes.OrdenID;
 
 
+SELECT clientes.ID, ordenes.OrdenID
+FROM ordenes
+INNER JOIN clientes ON ordenes.OrdenID=clientes.ID;
+
+ SELECT clientes.ID,clientes.nombre, envios.EnvioID, ordenes.OrdenID
+FROM clientes 
+	LEFT JOIN envios ON envios.EnviosID = clientes.ID
+ORDER BY cliente.nombre;
+
+
+
+SELECT clientes.nombre, ordenes.ordenID
+FROM clientes
+FULL OUTER JOIN ordenes ON clientes.ID=ordenes.clienteID
+ORDER BY clientes.nombre;
 
 /*     httpd-xampp.conf
  8080
@@ -322,6 +350,6 @@ Type=Application
 Categories=GNOME;Application;Network;
 StartupNotify=true
 
-
+https://docs.oracle.com/cd/E11882_01/index.htm
         *
         /
