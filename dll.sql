@@ -281,8 +281,6 @@ SELECT
 `ID`
 
 
-
-
 SELECT ID, Nombre
    FROM CLIENTES, ORDENES
    WHERE  ordenID =  clientes.id, ordenes.OrdenID;
