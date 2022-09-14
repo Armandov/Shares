@@ -76,7 +76,7 @@ CREATE TABLE envios (
 
 
 CREATE TABLE personal (
-    ID_peronsas int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    ID_personas int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nombre varchar(255) NOT NULL,
     edad int NOT NULL CHECK (edad>=18),  -- AND ciudad='cdmx'
     area varchar(255) NOT NULL,
@@ -286,8 +286,7 @@ ALTER TABLE envios ADD FOREIGN KEY (EnviosID) REFERENCES ordenes (OrdenID);
 INSERT INTO `envios` (`EnvioID`, `EnvioNumero`, `EnviosID`) 
 VALUES (NULL, '0001', '1'), (NULL, '002', '3');
 
-CREATE VIEW DetallesPrecios AS
-SELECT producto_nombre, precio
+CREATE VIEW DetallesPrecios AS SELECT producto_nombre, precio
 FROM productos
 WHERE precio > (SELECT MIN(precio) FROM productos);
 
@@ -323,8 +322,59 @@ SELECT clientes.nombre, ordenes.ordenID
 FROM clientes
 FULL OUTER JOIN ordenes ON clientes.ID=ordenes.clienteID
 ORDER BY clientes.nombre;
+DESCRIBE libros
+SELECT Autor AS nombre, editorial AS povedor
+FROM libros LIMIT 100;
+SELECT * FROM libros
+WHERE Genero='Filosofia'
+LIMIT 100;
 
-/*     httpd-xampp.conf
+CREATE VIEW Filosofia AS
+SELECT Autor, Titulo
+FROM libros WHERE Editorial="Gredos";
+SELECT * FROM Filosofia
+show keys from libros;
+SHOW FULL TABLES
+
+CREATE VIEW leonovos
+AS
+    SELECT 
+        customerName, 
+        SUM(amount) payment
+    FROM
+        customers
+    INNER JOIN payments 
+        USING (customerNumber)
+    GROUP BY 
+        customerName;
+Code language: SQL (Structured Query Language) (sql)
+This example uses the DROP VIEW statement to drop the customerPayments view:
+
+DROP VIEW IF EXISTS customerPayments;
+
+DROP VIEW IF EXISTS customerPayments;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` 
+SQL SECURITY DEFINER VIEW `filosofia` AS SELECT `libros`.`Autor` AS `Autor`, `libros`.`Titulo` AS `Titulo` FROM `libros` WHERE `libros`.`Editorial` = 'Gredos' ;
+https://dev.mysql.com/doc/refman/8.0/en/tutorial.html
+SHOW CREATE USER user_name
+Description
+Shows the CREATE USER statement that created the given user.
+ The statement requires the SELECT privilege for the mysql database, except for the current user.
+
+
+CREATE USER foo4@test require cipher 'text' 
+  issuer 'foo_issuer' subject 'foo_subject';
+
+SHOW CREATE USER foo4@test\G
+*************************** 1. row ***************************
+CREATE USER 'foo4'@'test' 
+  REQUIRE ISSUER 'foo_issuer' 
+  SUBJECT 'foo_subject' 
+  CIPHER 'text'
+
+
+/* httpd-xampp.conf
  8080
  sudo nano /etc/apache2/
 \apache\conf\extra
@@ -351,5 +401,128 @@ Categories=GNOME;Application;Network;
 StartupNotify=true
 
 https://docs.oracle.com/cd/E11882_01/index.htm
-        *
-        /
+*/
+
+        
+        CREATE TABLE shop (
+    article INT UNSIGNED  DEFAULT '0000' NOT NULL,
+    dealer  CHAR(20)      DEFAULT ''     NOT NULL,
+    price   DECIMAL(16,2) DEFAULT '0.00' NOT NULL,
+    PRIMARY KEY(article, dealer));
+INSERT INTO shop VALUES
+    (1,'A',3.45),(1,'B',3.99),(2,'A',10.99),(3,'B',1.45),
+    (3,'C',1.69),(3,'D',1.25),(4,'D',19.95);
+Después de emitir las declaraciones, la tabla debe tener el siguiente contenido:
+
+
+SELECT * FROM shop ORDER BY article;
+
++---------+--------+-------+
+| article | dealer | price |
++---------+--------+-------+
+|       1 | A      |  3.45 |
+|       1 | B      |  3.99 |
+|       2 | A      | 10.99 |
+|       3 | B      |  1.45 |
+|       3 | C      |  1.69 |
+|       3 | D      |  1.25 |
+|       4 | D      | 19.95 |
++---------+--------+-------+
+
+SELECT article, dealer, price
+FROM   shop
+WHERE  price=(SELECT MAX(price) FROM shop);
+-- Encuentre el número, distribuidor y precio del artículo más caro.
+
++---------+--------+-------+
+| article | dealer | price |
++---------+--------+-------+
+|    0004 | D      | 19.95 |
++---------+--------+-------+
+
+
+
+- Otra solución es usar un LEFT JOIN, como se muestra aquí:
+
+SELECT s1.article, s1.dealer, s1.price
+FROM shop s1
+LEFT JOIN shop s2 ON s1.price < s2.price
+WHERE s2.article IS NULL;
+
+
+SELECT article, dealer, price
+FROM shop
+ORDER BY price DESC
+LIMIT 1
+
+
+-- Máximo de Columnas por Grupo
+-- Tarea: Encuentra el precio más alto por artículo.
+
+
+SELECT article, MAX(price) AS price
+FROM   shop
+GROUP BY article
+ORDER BY article;
+
++---------+-------+
+| article | price |
++---------+-------+
+|    0001 |  3.99 |
+|    0002 | 10.99 |
+|    0003 |  1.69 |
+|    0004 | 19.95 |
++---------+-------+
+
+
+
+/* Para cada artículo, encuentre el distribuidor o distribuidores con el precio más caro.
+
+Este problema se puede resolver con una subconsulta como esta:
+ */
+
+SELECT article, dealer, price
+FROM   shop s1
+WHERE  price=(SELECT MAX(s2.price)
+              FROM shop s2
+              WHERE s1.article = s2.article)
+ORDER BY article;
+
++---------+--------+-------+
+| article | dealer | price |
++---------+--------+-------+
+|    0001 | B      |  3.99 |
+|    0002 | A      | 10.99 |
+|    0003 | C      |  1.69 |
+|    0004 | D      | 19.95 |
++---------+--------+-------+
+
+
+WITH s1 AS (
+   SELECT article, dealer, price,
+          RANK() OVER (PARTITION BY article
+                           ORDER BY price DESC
+                      ) AS `Rank`
+     FROM shop
+)
+SELECT article, dealer, price
+  FROM s1
+  WHERE `Rank` = 1
+ORDER BY article;
+
+machine learning algorithm with SQL?
+--  Uso de variables definidas por el usuario
+-- Puede emplear variables de usuario de MySQL para recordar los resultados sin tener que almacenarlos en variables temporales en el cliente. 
+-- (Consulte la Sección 9.4, “Variables definidas por el usuario” .)
+
+-- Por ejemplo, para encontrar los artículos con el precio más alto y más bajo puedes hacer esto:
+
+
+mysql> SELECT @min_price:=MIN(price),@max_price:=MAX(price) FROM shop;
+mysql> SELECT * FROM shop WHERE price=@min_price OR price=@max_price;
++---------+--------+-------+
+| article | dealer | price |
++---------+--------+-------+
+|    0003 | D      |  1.25 |
+|    0004 | D      | 19.95 |
++---------+--------+-------+
