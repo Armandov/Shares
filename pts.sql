@@ -77,3 +77,70 @@ fecha_hora date,
 cantidad int,
 FOREIGN KEY (codigo_provedor) REFERENCES proveedor(codigo),
 FOREIGN KEY (codigo_pieza) REFERENCES pieza(codigo) );
+
+
+7s
+ALTER TABLE libros COMMENT = 'Bilibioteca 22/03/2022';
+ALTER TABLE libros MODIFY COLUMN info varchar(524) COMMENT "update 20/01/2022"
+ALTER TABLE foo MODIFY COLUMN foo foo_definicion COMMENT "foo";
+SHOW FULL COLUMNS FROM libros;
+SELECT nombre FROM clientes
+UNION
+SELECT ordenfecha FROM ordenes
+ORDER BY clienteid;
+SELECT Autor,Item FROM libros ORDER BY Autor ASC, Titulo ASC, Genero ASC, Info ASC
+SELECT Autor,Item FROM libros ORDER BY codigo ASC
+SELECT ordenes.OrdenID, clientes.nombre, ordenes.ordenfecha
+FROM ordenes
+INNER JOIN clientes ON ordenes.OrdenID=clientes.ID;
+
+
+   SELECT clientes.nombre, envios.EnvioID, ordenes.OrdenID
+FROM clientes 
+	LEFT JOIN envios ON envios.EnviosID = clientes.ID
+	LEFT JOIN ordenes ON envios.EnviosID = ordenes.OrdenID;
+
+SELECT clientes.ID, ordenes.OrdenID
+FROM ordenes
+INNER JOIN clientes ON ordenes.OrdenID=clientes.ID;
+
+SELECT clientes.nombre,clientes.ID, ordenes.OrdenID  FROM ordenes
+INNER JOIN clientes ON ordenes.OrdenID=clientes.ID;
+
+
+SELECT nombre,precio + 100 FROM producto As Conenvio;
+
+SELECT fabricante.nombre, SUM(producto.precio) 
+FROM fabricante LEFT JOIN producto
+ON producto.codigo_fabricante = fabricante.codigo 
+GROUP BY fabricante.codigo
+ORDER BY 2 DESC;
+
+
+SELECT fabricante.nombre, COUNT(producto.nombre),
+AVG(producto.precio)
+FROM fabricante INNER JOIN producto
+ON producto.codigo_fabricante = fabricante.codigo
+GROUP BY fabricante.codigo;
+
+SELECT fabricante.nombre,
+MAX(producto.precio), MIN(producto.precio),
+AVG(producto.precio), COUNT(*)
+FROM producto INNER JOIN fabricante
+ON producto.codigo_fabricante = fabricante.codigo
+GROUP BY fabricante.codigo HAVING AVG(producto.precio) < 1000;
+
+SELECT * FROM producto WHERE codigo_fabricante = (
+SELECT codigo
+FROM fabricante
+WHERE nombre = 'Lenovo');
+
+
+SELECT producto.nombre
+FROM fabricante INNER JOIN producto
+ON fabricante.codigo = producto.codigo_fabricante
+WHERE fabricante.nombre = 'Crucial' AND producto.precio = (
+SELECT MAX(precio)
+FROM fabricante INNER JOIN producto
+ON fabricante.codigo = producto.codigo_fabricante WHERE fabricante.nombre = 'Crucial');
+

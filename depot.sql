@@ -301,7 +301,7 @@ SELECT * FROM detalles_preciosbajos DetallesPrecios;
 SHOW KEYS FROM clientes;
 
 
-   SELECT clientes.ID,clientes.nombre, envios.EnvioID, ordenes.OrdenID
+   SELECT clientes.nombre, envios.EnvioID, ordenes.OrdenID
 FROM clientes 
 	LEFT JOIN envios ON envios.EnviosID = clientes.ID
 	LEFT JOIN ordenes ON envios.EnviosID = ordenes.OrdenID;
@@ -314,7 +314,7 @@ INNER JOIN clientes ON ordenes.OrdenID=clientes.ID;
  SELECT clientes.ID,clientes.nombre, envios.EnvioID, ordenes.OrdenID
 FROM clientes 
 	LEFT JOIN envios ON envios.EnviosID = clientes.ID
-ORDER BY cliente.nombre;
+ORDER BY clientes.nombre;
 
 
 
@@ -373,7 +373,9 @@ CREATE USER 'foo4'@'test'
   SUBJECT 'foo_subject' 
   CIPHER 'text'
 
-
+SELECT ordenes.OrdenID, clientes.nombre, ordenes.ordenfecha
+FROM ordenes
+INNER JOIN clientes ON ordenes.OrdenID=clientes.ID;
 /* httpd-xampp.conf
  8080
  sudo nano /etc/apache2/
@@ -517,8 +519,8 @@ machine learning algorithm with SQL?
 
 -- Por ejemplo, para encontrar los artículos con el precio más alto y más bajo puedes hacer esto:
 
-
-mysql> SELECT @min_price:=MIN(price),@max_price:=MAX(price) FROM shop;
+SELECT marca, @min_price:=MIN(precio),marca ,@max_price:=MAX(precio) FROM productos;
+mysql> SELECT @min_price:=MIN(precio),@max_price:=MAX(precio) FROM productos;
 mysql> SELECT * FROM shop WHERE price=@min_price OR price=@max_price;
 +---------+--------+-------+
 | article | dealer | price |

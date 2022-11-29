@@ -1,5 +1,4 @@
 import os
-
 command = "tasklist"
 comando = "mysql -u root"
 c0="service mysql stop"

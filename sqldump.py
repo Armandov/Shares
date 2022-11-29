@@ -1,7 +1,7 @@
 import datetime
 import os
 
-command = "mysqldump -h [192.168.1.1] -u [armand] -p[dbs] [bilioteca]"
+command = "mysqldump -u [root] -p[""] [bilioteca]" #-h [192.168.1.1]
 
 # Objeto HOY
 today = datetime.date.today()
@@ -9,7 +9,7 @@ today = datetime.date.today()
 fecha = today.strftime("%Y%m%d")
 
 # Fichero de salida
-file = "dump"+fecha
+file = "dumppy"+fecha
 
 command = command+" > c:"+file+".sql"
 
