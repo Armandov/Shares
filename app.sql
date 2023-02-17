@@ -3,6 +3,7 @@
 
 -- --------------------------------------------------------
 
+
 --
 -- Estructura de tabla para la tabla `archive`
 --

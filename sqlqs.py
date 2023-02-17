@@ -8,7 +8,7 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
-mycursor.execute("SELECT * FROM libros")
+mycursor.execute("SELECT autor,titulo FROM libros LIMIT 10;")
 
 result = mycursor.fetchall()
 
@@ -18,7 +18,7 @@ for x in result:
 
   mycursor = mydb.cursor()
 
-sql = "SELECT * FROM libros WHERE Autor ='Oracle'"
+sql = "SELECT * FROM libros WHERE Editorial IN ('Oracle','Press','Alfa Omega');"
 
 mycursor.execute(sql)
 
@@ -73,6 +73,7 @@ plt.show()
 # pip install pandas
 import pandas
 import pandas as pd
+import os.path
 
 df = pd.read_json('data.json')
 
@@ -90,4 +91,9 @@ print(html)
 #ecribir html a archivo
 text_file = open("dataframe.html", "w")
 text_file.write(html)
-#text_file.close()
+text_file.close()
+import webbrowser
+mifile = 'c:/Documents/HTML/NodeJs/MWS/views/dataframe.html'
+url = 'http://docs.python.org/'
+chrome_r = 'C:/Program Files/Google/Chrome/Application/chrome.exe %s'
+webbrowser.get(chrome_r).open(mifile)

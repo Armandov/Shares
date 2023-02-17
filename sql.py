@@ -93,7 +93,7 @@ mydb = mysql.connector.connect(
 mycursor = mydb.cursor()
 
 sql = "INSERT INTO sucursal (name,direccion) VALUES (%s, %s)"
-val = ("Roma","Acapulco 23")
+val = ("Oficce Depot","Acapulco 23")
 
 """ val = [
   ('Peter', 'Lowstreet 4'),
