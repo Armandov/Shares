@@ -1820,4 +1820,7 @@ INSERT INTO libros (Autor, Titulo, Genero, Editorial, Item, Info, Image) VALUES 
 INSERT INTO libros (Autor, Titulo, Genero, Editorial, Item, Info, Image) VALUES ('Geoffrey Chaucer', 'Cuentos de Canterbury', 'Medieval', 'Brugera', '1819', '', '');
 INSERT INTO libros (Autor, Titulo, Genero, Editorial, Item, Info, Image) VALUES ('Eunapio de Sardes', 'Vidas de filósofos y sofistas.', 'Filosofía', 'Aguilar', '1820', '', '');
 INSERT INTO libros (Autor, Titulo, Genero, Editorial, Item, Info, Image) VALUES ('Friedrich Daniel Ernst Schleiermacher', 'Mnologos', 'Filosofía', 'Aguilar', '1821', '', '');
+INSERT INTO libros (Autor, Titulo, Genero, Editorial, Item, Info, Image) VALUES ('Heinrich Kramer Jacob Sprenger','Malleus Maleficarum','Estoterico','Maxtor','1822','', '');
+INSERT INTO libros (Autor, Titulo, Genero, Editorial, Item, Info, Image) VALUES ('Denis Diderot','Escritos Filosóficos','Filosfía','Gredos','1822','', '');
+
  --https://tableconvert.com/json-to-sql
