@@ -94,9 +94,7 @@ CREATE TABLE `usuarios` (
   `image` varchar(255) DEFAULT NULL
 );
 
-ALTER TABLE usuarios CHANGE actulizado actulizado
-
-DATE NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE usuarios CHANGE actulizado actulizado DATE NOT NULL DEFAULT CURRENT_TIMESTAMP;
 
 ALTER TABLE `usuarios` CHANGE `creado` `creado` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
 
@@ -167,8 +165,7 @@ ALTER TABLE productos ADD rastreo VARCHAR(50) NOT NULL;
 
 ALTER TABLE clientes ADD edad int NOT NULL
 
-ALTER TABLE productos
-MODIFY COLUMN rastreo int;
+ALTER TABLE productos MODIFY COLUMN rastreo int;
 
 ALTER TABLE `productos`
   DROP PRIMARY KEY,
@@ -177,7 +174,7 @@ ALTER TABLE `productos`
    );
 
 
-1
+1DATETIME DEFAULT CURRENT_TIMESTAMP
 
 
 ALTER TABLE `ordenes` ADD `ordenfecha` 
@@ -192,6 +189,9 @@ ALTER TABLE `ordenes` CHANGE `ordenfecha`
 ALTER TABLE `ordenes` ADD `ordenfecha` DATETIME NULL DEFAULT NULL AFTER `OrdenNumero`;
 
 UPDATE `ordenes` SET `clienteID` = '4' WHERE `ordenes`.`OrdenID` = 3;
+
+alter table libros add Fecha DATETIME NULL DEFAULT NULL after info;
+
 
 ALTER TABLE ordenes
 MODIFY COLUMN OrdenNumero varchar(20);
